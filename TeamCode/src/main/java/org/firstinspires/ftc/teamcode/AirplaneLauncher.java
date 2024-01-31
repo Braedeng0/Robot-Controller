@@ -6,10 +6,21 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class AirplaneLauncher {
     private static final double airplaneReady = .175;
     private static final double airplaneLaunch = 1;
-    private static Servo airplaneServo;
+    private Servo airplaneServo;
 
-    public AirplaneLauncher() {
-        airplaneServo = hardwareMap.Servo.get("airplane_servo");
+    public AirplaneLauncher(HardwareMap hardwareMap) {
+        airplaneServo = hardwareMap.servo.get("airplane_servo");
+    }
 
+    public void ready() {airplaneServo.setPosition(airplaneReady);}
+
+    public void launch() {airplaneServo.setPosition(airplaneLaunch);}
+
+    public void toggle() {
+        if (airplaneServo.getPosition() == airplaneReady){
+            airplaneServo.setPosition(airplaneLaunch);
+        } else {
+            airplaneServo.setPosition(airplaneReady);
+        }
     }
 }

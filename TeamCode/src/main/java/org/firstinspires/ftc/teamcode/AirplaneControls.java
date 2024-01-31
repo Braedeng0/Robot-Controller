@@ -3,14 +3,15 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.*;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import org.firstinspires.ftc.robotcore.external.navigation.*;
-import org.firstinspires.ftc.teamcode.MecanumBase;
+
+import org.checkerframework.checker.units.qual.A;
+
 
 @TeleOp(name = "Airplane Controls")
 public class AirplaneControls extends LinearOpMode{
     public void runOpMode(){
         MecanumBase base = new MecanumBase(hardwareMap);
+        AirplaneLauncher launcher = new AirplaneLauncher(hardwareMap);
 
         waitForStart();
 
@@ -22,7 +23,7 @@ public class AirplaneControls extends LinearOpMode{
 
             base.move(px, py, turn, 0.5);
 
-
+            if (gamepad1.a) launcher.toggle();
         }
     }
 }

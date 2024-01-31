@@ -4,15 +4,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 
-// Your motor control class
 public class MecanumBase {
-    private final DcMotor m1;
-    private final DcMotor m2;
-    private final DcMotor m3;
-    private final DcMotor m4;
+    private DcMotor m1;
+    private DcMotor m2;
+    private DcMotor m3;
+    private DcMotor m4;
 
     public MecanumBase(HardwareMap hardwareMap) {
-        m1 =
+        m1 = hardwareMap.dcMotor.get("front_left_motor");
         m2 = hardwareMap.dcMotor.get("front_right_motor");
         m3 = hardwareMap.dcMotor.get("back_left_motor");
         m4 = hardwareMap.dcMotor.get("back_right_motor");
