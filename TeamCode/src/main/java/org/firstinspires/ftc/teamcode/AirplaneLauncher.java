@@ -16,8 +16,4 @@ public class AirplaneLauncher {
     public void ready() {airplaneServo.setPosition(airplaneReady);}
 
     public void launch() {airplaneServo.setPosition(airplaneLaunch);}
-
-    public void toggle() {
-
-    }
 }
