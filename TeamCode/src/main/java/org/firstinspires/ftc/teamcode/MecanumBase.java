@@ -27,7 +27,6 @@ public class MecanumBase {
 
     public void move(double px, double py, double turn, double speed_multiplier) {
         double stick_angle = Math.atan2(py, px);
-//        stick_angle = ((stick_angle + 3*Math.PI/2) % (2*Math.PI)) * -1;
 
         //Speed
         double speed = Math.sqrt(Math.pow(px, 2) + Math.pow(py, 2));
@@ -42,8 +41,8 @@ public class MecanumBase {
         turn = turn * speed_multiplier;
 
         m1.setPower(p1 + turn);
-        m2.setPower(p2 - turn);
-        m3.setPower(p2 + turn);
+        m2.setPower(p2 + turn);
+        m3.setPower(p2 - turn);
         m4.setPower(p1 - turn);
     }
 }

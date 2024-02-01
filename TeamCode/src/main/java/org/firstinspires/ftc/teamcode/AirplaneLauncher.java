@@ -4,9 +4,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class AirplaneLauncher {
-    private static final double airplaneReady = .175;
-    private static final double airplaneLaunch = 1;
-    private boolean airplaneToggle = false;
+    private static final double airplaneLaunch = 0.175;
+    private static final double airplaneReady = 1;
     private Servo airplaneServo;
 
     public AirplaneLauncher(HardwareMap hardwareMap) {
@@ -18,5 +17,7 @@ public class AirplaneLauncher {
 
     public void launch() {airplaneServo.setPosition(airplaneLaunch);}
 
-    public void toggle() {if (!airplaneToggle) launch(); else ready();}
+    public void toggle() {
+
+    }
 }

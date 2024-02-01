@@ -21,9 +21,10 @@ public class AirplaneControls extends LinearOpMode{
             double py = -gamepad1.left_stick_y;
             double turn = gamepad1.right_stick_x;
 
-            base.move(px, py, turn, 0.5);
+            base.move(px, py, turn, 1);
 
-            if (gamepad1.a) launcher.toggle();
+            if (gamepad1.a) launcher.launch();
+            if (gamepad1.b) launcher.ready();
         }
     }
 }
