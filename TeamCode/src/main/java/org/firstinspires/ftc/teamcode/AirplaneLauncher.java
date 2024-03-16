@@ -9,7 +9,7 @@ public class AirplaneLauncher {
     private Servo airplaneServo;
 
     public AirplaneLauncher(HardwareMap hardwareMap) {
-        airplaneServo = hardwareMap.servo.get("airplane_servo");
+        airplaneServo = hardwareMap.servo.get("airplaneLauncher");
         ready();
     }
 
