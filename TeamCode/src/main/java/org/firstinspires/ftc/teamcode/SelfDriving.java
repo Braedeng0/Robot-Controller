@@ -43,29 +43,46 @@ public class SelfDriving {
         BNO055IMU.Parameters params = new BNO055IMU.Parameters();
         imu.initialize(params);
 
-        odoDiameterCM = 4.6;
+        odoDiameterCM = 4.8;
         odoCircumferenceCM = odoDiameterCM * Math.PI;
         ticsToCM = odoCircumferenceCM / 2000;
     }
 
     public void move(double heading, double distance, double speed) {
-        //Absolute Value of Distance
+        // Convert heading to radians
+        heading = Math.toRadians(heading);
+
+        // Absolute Value of Distance
         distance = Math.abs(distance);
 
-        //Reset Odometers
+        // Reset Odometers
         odoLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         odoCenter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         odoRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        //Set Motor Power
-        double p1 = Math.sin(heading + Math.PI / 4) * speed;
-        double p2 = Math.cos(heading + Math.PI / 4) * speed;
-
-        //Calculate current distance
+        // Calculate current distance
         odoLeftCM = -odoLeft.getCurrentPosition() * ticsToCM;
         odoCenterCM = odoCenter.getCurrentPosition() * ticsToCM;
 
+        // Initialize current distance
         currentDistance = Math.sqrt(Math.pow(odoLeftCM, 2) + Math.pow(odoCenterCM, 2));
+
+        // Change speed based on the normalized error
+        double error = distance - currentDistance;
+        speed *= 1 - (1 / error);
+
+        // Set minimum speed
+        if (speed < 0.1) {
+            if (speed < 0.01) {
+                speed = 0;
+            } else {
+                speed = 0.1;
+            }
+        }
+
+        // Set initial motor power
+        double p1 = Math.sin(heading + Math.PI / 4) * speed;
+        double p2 = Math.cos(heading + Math.PI / 4) * speed;
 
         while (currentDistance < distance) {
             //Run Motors
@@ -74,7 +91,35 @@ public class SelfDriving {
             m3.setPower(p2);
             m4.setPower(p1);
 
+            // Calculate current distance
+            odoLeftCM = -odoLeft.getCurrentPosition() * ticsToCM;
+            odoCenterCM = odoCenter.getCurrentPosition() * ticsToCM;
+
+            // Update current distance
+            currentDistance = Math.sqrt(Math.pow(odoLeftCM, 2) + Math.pow(odoCenterCM, 2));
+
+            // Update motor power
+            error = distance - currentDistance;
+            speed *= 1 - (1 / error);
+
+            // Set minimum speed (very much need fix)
+            if (speed < 0.1) {
+                if (speed < 0.01) {
+                    speed = 0;
+                } else {
+                    speed = 0.1;
+                }
+            }
+
+            p1 = Math.sin(heading + Math.PI / 4) * speed;
+            p2 = Math.cos(heading + Math.PI / 4) * speed;
+
+            // Update Telemetry
+            telemetry.addData("Odo Left", odoLeftCM);
+            telemetry.addData("Odo Center", odoCenterCM);
             telemetry.addData("Current Distance", currentDistance);
+            telemetry.addData("Distance Error", distance - currentDistance);
+            telemetry.addData("Speed", speed);
             telemetry.update();
         }
 
