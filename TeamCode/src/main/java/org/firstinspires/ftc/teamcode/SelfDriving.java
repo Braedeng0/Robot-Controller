@@ -4,6 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 
@@ -67,19 +68,6 @@ public class SelfDriving {
         // Initialize current distance
         currentDistance = Math.sqrt(Math.pow(odoLeftCM, 2) + Math.pow(odoCenterCM, 2));
 
-        // Change speed based on the normalized error
-        double error = distance - currentDistance;
-        speed *= 1 - (1 / error);
-
-        // Set minimum speed
-        if (speed < 0.1) {
-            if (speed < 0.01) {
-                speed = 0;
-            } else {
-                speed = 0.1;
-            }
-        }
-
         // Set initial motor power
         double p1 = Math.sin(heading + Math.PI / 4) * speed;
         double p2 = Math.cos(heading + Math.PI / 4) * speed;
@@ -98,28 +86,14 @@ public class SelfDriving {
             // Update current distance
             currentDistance = Math.sqrt(Math.pow(odoLeftCM, 2) + Math.pow(odoCenterCM, 2));
 
-            // Update motor power
-            error = distance - currentDistance;
-            speed *= 1 - (1 / error);
-
-            // Set minimum speed (very much need fix)
-            if (speed < 0.1) {
-                if (speed < 0.01) {
-                    speed = 0;
-                } else {
-                    speed = 0.1;
-                }
-            }
-
-            p1 = Math.sin(heading + Math.PI / 4) * speed;
-            p2 = Math.cos(heading + Math.PI / 4) * speed;
-
             // Update Telemetry
             telemetry.addData("Odo Left", odoLeftCM);
             telemetry.addData("Odo Center", odoCenterCM);
             telemetry.addData("Current Distance", currentDistance);
             telemetry.addData("Distance Error", distance - currentDistance);
             telemetry.addData("Speed", speed);
+            telemetry.addData("p1", p1);
+            telemetry.addData("p2", p2);
             telemetry.update();
         }
 
