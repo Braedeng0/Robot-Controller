@@ -12,8 +12,8 @@ public class FollowAprilTag extends LinearOpMode {
         AprilTagProcessor processor = new AprilTagProcessor(hardwareMap, telemetry);
         MecanumBase base = new MecanumBase(hardwareMap, telemetry);
 
-        PID xPID = new PID(0.5, 0.05, 0, 0, 1);
-        PID yPID = new PID(0.5, 0.05, 0, 0, 1);
+        PID xPID = new PID(0.5, 0.05, 0, 0);
+        PID yPID = new PID(0.5, 0.05, 0, 0);
 
         waitForStart();
         while (opModeIsActive()) {

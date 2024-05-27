@@ -111,9 +111,9 @@ public class PIDController {
         }
 
         // Initialize PID based on the direction
-        PID xPID = new PID(kP, kI, kD, x-robotX, 1000);
-        PID yPID = new PID(kP, kI, kD, y-robotY, 1000);
-        PID rotationPID = new PID(1, 0.000001, 10000, rotation-robotRotation, 1000);
+        PID xPID = new PID(kP, kI, kD, x-robotX);
+        PID yPID = new PID(kP, kI, kD, y-robotY);
+        PID rotationPID = new PID(1, 0.000001, 10000, rotation-robotRotation);
 
         // Initialize error
         double[] error = {xPID.getError(), yPID.getError(), rotationPID.getError()};
