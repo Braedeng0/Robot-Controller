@@ -12,6 +12,6 @@ public class TestAuto extends LinearOpMode {
 
         waitForStart();
 
-        base.move(50, 30, 0);
+        base.move(0, 25, 0);
     }
 }

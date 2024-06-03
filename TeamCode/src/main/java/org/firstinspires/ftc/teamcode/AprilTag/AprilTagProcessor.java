@@ -181,7 +181,7 @@ public class AprilTagProcessor {
         if (currentDetections.size() > 0) {
             return new int[] {currentDetections.get(0).id};
         } else {
-            return new int[] {0};
+            return new int[] {};
         }
     }
 

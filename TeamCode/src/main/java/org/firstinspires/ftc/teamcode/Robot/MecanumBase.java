@@ -27,15 +27,17 @@ public class MecanumBase {
         m3 = hardwareMap.dcMotor.get("LB");
         m4 = hardwareMap.dcMotor.get("RB");
 
-        m2.setDirection(DcMotor.Direction.REVERSE);
-        m1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        m2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        m3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        m4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        m1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        m2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        m3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        m4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        m1.setDirection(DcMotor.Direction.REVERSE); // For new robot
+        m3.setDirection(DcMotor.Direction.REVERSE); // For old robot
+        m1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        m2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        m3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        m4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+//        m1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        m2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        m3.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        m4.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
@@ -52,16 +54,28 @@ public class MecanumBase {
     }
 
     public void move(double x, double y) {
+        move(x, y, 1);
+    }
+
+    public void move(double x, double y, double speedMultiplier) {
         // args: x (-1 to 1), y (-1 to 1)
+
+        x = -x;
+
         double r = Math.hypot(x, y);
-        double angle = Math.atan2(y, x) - Math.PI / 4;
+        double angle = Math.atan2(y, x);
+        telemetry.addData("Angle: ", angle);
 
-        double p1 = Math.sin(angle + Math.PI / 4) * r;
-        double p2 = Math.cos(angle + Math.PI / 4) * r;
+        double p1 = Math.sin(angle - Math.PI/4) * r;
+        double p2 = Math.cos(angle - Math.PI/4) * r;
+        telemetry.addData("p1: ", p1);
+        telemetry.addData("p2: ", p2);
 
-        m1.setPower(p1);
-        m2.setPower(p2);
-        m3.setPower(p2);
-        m4.setPower(p1);
+//        telemetry.update();
+
+        m1.setPower(p1 * speedMultiplier);
+        m2.setPower(p2 * speedMultiplier);
+        m3.setPower(p2 * speedMultiplier);
+        m4.setPower(p1 * speedMultiplier);
     }
 }

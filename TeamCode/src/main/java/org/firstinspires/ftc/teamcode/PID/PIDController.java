@@ -45,8 +45,7 @@ public class PIDController {
         m3 = hardwareMap.get(DcMotorEx.class, "LB");
         m4 = hardwareMap.get(DcMotorEx.class, "RB");
 
-        m1.setDirection(DcMotor.Direction.REVERSE);
-        m3.setDirection(DcMotor.Direction.REVERSE);
+        m2.setDirection(DcMotor.Direction.REVERSE); // For old robot
 
         m1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         m2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
